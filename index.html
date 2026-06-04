@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>My Proxy</title></head>
+<body>
+  <h1>My Proxy</h1>
+  <form id="proxy-form">
+    <input type="text" id="url" placeholder="Enter URL here...">
+    <button type="submit">Go</button>
+  </form>
+  <script>
+    navigator.serviceWorker.register('/sw.js');
+    document.getElementById('proxy-form').onsubmit = (e) => {
+      e.preventDefault();
+      const url = document.getElementById('url').value;
+      window.location.href = '/scram/' + btoa(url);
+    };
+  </script>
+</body>
+</html>

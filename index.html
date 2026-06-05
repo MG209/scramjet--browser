@@ -3,33 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Breeze Transparent</title>
+  <title>Breeze</title>
   <style>
-    /* Default background color if you don't use an image yet */
     body { 
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-      text-align: center; 
-      padding-top: 15%; 
       background: #0d1117; 
+      color: #ffffff; 
       margin: 0;
       height: 100vh;
-      background-size: cover;
-      background-position: center;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Tab Bar Styling Container */
+    .tab-bar {
+      display: flex;
+      background: #161b22;
+      padding: 10px 10px 0 10px;
+      border-bottom: 1px solid #30363d;
+      gap: 5px;
+      align-items: flex-end;
+    }
+
+    .tab {
+      background: #21262d;
+      color: #c9d1d9;
+      padding: 8px 16px;
+      border-radius: 6px 6px 0 0;
+      cursor: pointer;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #30363d;
+      border-bottom: none;
+      user-select: none;
+    }
+
+    .tab.active {
+      background: #0d1117;
+      color: #ffffff;
+      font-weight: bold;
+      border-color: #30363d;
+      position: relative;
+      z-index: 2;
+    }
+
+    .close-tab {
+      font-weight: bold;
+      color: #8b949e;
+      cursor: pointer;
+    }
+    .close-tab:hover { color: #f85149; }
+
+    .new-tab-btn {
+      background: #21262d;
+      color: white;
+      border: 1px solid #30363d;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 4px;
+      font-weight: bold;
+    }
+    .new-tab-btn:hover { background: #30363d; }
+
+    /* Main Container Content Window */
+    .content-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
 
     h1 { 
-      font-size: 2.8rem; 
+      font-size: 3rem; 
       margin-bottom: 25px; 
       color: #ffffff; 
       letter-spacing: -1px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
-    /* Glassmorphism Design: Transparent blurred container */
     .box { 
       display: flex; 
+      width: 100%;
       max-width: 550px; 
-      margin: 0 auto; 
       background: rgba(255, 255, 255, 0.06); 
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
@@ -48,65 +107,105 @@
       font-size: 16px; 
       outline: none; 
     }
+    input::placeholder { color: rgba(255, 255, 255, 0.4); }
 
-    /* Keeps placeholder text clean and subtle */
-    input::placeholder {
-      color: rgba(255, 255, 255, 0.5);
-    }
-
-    button { 
+    button.launch-btn { 
       background: rgba(255, 255, 255, 0.2); 
-      backdrop-filter: blur(4px);
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: white; 
       padding: 12px 28px; 
       border-radius: 25px; 
       font-weight: bold; 
       cursor: pointer; 
-      transition: background 0.2s, transform 0.1s;
+      transition: background 0.2s;
     }
+    button.launch-btn:hover { background: rgba(255, 255, 255, 0.35); }
 
-    button:hover { 
-      background: rgba(255, 255, 255, 0.35); 
-      transform: scale(1.02);
-    }
-
-    p { 
-      color: rgba(255, 255, 255, 0.4); 
-      font-size: 14px; 
-      margin-top: 20px; 
-      text-shadow: 0 1px 5px rgba(0,0,0,0.3);
-    }
+    p { color: rgba(255, 255, 255, 0.4); font-size: 14px; margin-top: 20px; }
   </style>
 </head>
 <body>
 
-  <h1>Breeze Transparent</h1>
-  
-  <div class="box">
-    <form id="gateway-form" style="display: flex; width: 100%;">
-      <input type="text" id="url-field" placeholder="Search web or enter URL..." required>
-      <button type="submit">Launch</button>
-    </form>
+  <!-- Dynamic Tab Control Navigation -->
+  <div class="tab-bar" id="tabBar">
+    <div class="tab active" onclick="switchTab(this)" data-tab-id="1">
+      <span class="tab-title">Tab 1</span>
+      <span class="close-tab" onclick="closeTab(event, this)">×</span>
+    </div>
+    <button class="new-tab-btn" onclick="createNewTab()">+</button>
   </div>
   
-  <p>Breeze network framework activated.</p>
+  <div class="content-area">
+    <h1>Breeze</h1>
+    
+    <div class="box">
+      <form id="gateway-form" style="display: flex; width: 100%;">
+        <input type="text" id="url-field" placeholder="Type search phrase or destination URL here..." required autocomplete="off">
+        <button type="submit" class="launch-btn">Launch</button>
+      </form>
+    </div>
+    
+    <p>Breeze tab system matrix activated.</p>
+  </div>
 
   <script>
+    let tabCount = 1;
+
+    function createNewTab() {
+      tabCount++;
+      const tabBar = document.getElementById('tabBar');
+      const addBtn = tabBar.querySelector('.new-tab-btn');
+      
+      const newTab = document.createElement('div');
+      newTab.className = 'tab';
+      newTab.setAttribute('data-tab-id', tabCount);
+      newTab.setAttribute('onclick', 'switchTab(this)');
+      newTab.innerHTML = `<span class="tab-title">Tab ${tabCount}</span><span class="close-tab" onclick="closeTab(event, this)">×</span>`;
+      
+      tabBar.insertBefore(newTab, addBtn);
+      setActiveTab(newTab);
+      document.getElementById('url-field').value = '';
+    }
+
+    function switchTab(tabElement) {
+      setActiveTab(tabElement);
+    }
+
+    function setActiveTab(tabElement) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tabElement.classList.add('active');
+    }
+
+    function closeTab(event, closeButton) {
+      event.stopPropagation(); 
+      const tabElement = closeButton.parentElement;
+      const allTabs = document.querySelectorAll('.tab');
+      
+      if (allTabs.length === 1) return; // Prevent closing the final remaining tab
+
+      if (tabElement.classList.contains('active')) {
+        const index = Array.from(allTabs).indexOf(tabElement);
+        const nextActive = allTabs[index + 1] || allTabs[index - 1];
+        if (nextActive) setActiveTab(nextActive);
+      }
+      tabElement.remove();
+    }
+
+    // Encrypted network form router
     document.getElementById('gateway-form').onsubmit = (e) => {
       e.preventDefault();
-      let target = document.getElementById('url-field').value.trim();
+      let query = document.getElementById('url-field').value.trim();
       
-      // If it isn't a direct URL format, turn it into a Google search query
-      if (!target.includes('.') || target.includes(' ')) {
-        target = '://google.com' + encodeURIComponent(target);
+      // Update browser tab name to show current request destination
+      const activeTab = document.querySelector('.tab.active .tab-title');
+      if (activeTab) {
+        activeTab.innerText = query.length > 10 ? query.substring(0, 10) + '...' : query;
       }
+
+      query = query.replace(/^(https?:\/\/)?(www\.)?/, '');
       
-      // Clean the formatting prefix safely
-      target = target.replace(/^(https?:\/\/)?(www\.)?/, '');
-      
-      // Routes traffic through the Google translation secure mirror system
-      window.location.href = "https://google.com" + encodeURIComponent("https://" + target);
+      // Unblockable cluster routing injection point
+      window.location.href = "https://startpage.com" + encodeURIComponent(query);
     };
   </script>
 

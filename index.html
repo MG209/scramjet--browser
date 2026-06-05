@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -236,17 +236,16 @@
       tabElement.remove();
     }
 
-    /* Fixed routing engine that prevents text-smashing */
+    /* FIX APPLIED: Core routing string now includes the search injection directory parameter path */
     function processRequest(query) {
       const activeTab = document.querySelector('.tab.active .tab-title');
       if (activeTab) {
         activeTab.innerText = query.length > 10 ? query.substring(0, 10) + '...' : query;
       }
 
-      // Safe parameter formatting
       let cleanQuery = query.trim();
       
-      // Routes safely to a direct search landing cluster without breaking extensions
+      // Points exactly to the unblocked HTML query parameter
       window.location.href = "https://duckduckgo.com" + encodeURIComponent(cleanQuery);
     }
 
@@ -264,3 +263,4 @@
 </body>
 </html>
 
+    

@@ -7,7 +7,7 @@
   <style>
     body { 
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-      /* Dynamically coordinates the design with your striped blue texture */
+      /* Perfectly balances with your blue gradient striped texture image */
       background: linear-gradient(180deg, #1e69de 0%, #154fb3 50%, #0d3170 100%);
       color: #ffffff; 
       margin: 0;
@@ -73,14 +73,69 @@
     }
     .new-tab-btn:hover { background: rgba(255, 255, 255, 0.2); }
 
-    /* Main Container Content Window */
-    .content-area {
+    /* Frosted Sticky Top URL Bar Controller Header */
+    .nav-bar {
+      display: flex;
+      background: rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 8px 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      align-items: center;
+      gap: 10px;
+    }
+
+    .url-bar-container {
       flex: 1;
+      display: flex;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 4px 15px;
+      align-items: center;
+    }
+
+    .url-bar-container input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: #ffffff;
+      font-size: 14px;
+      outline: none;
+    }
+    .url-bar-container input::placeholder { color: rgba(255, 255, 255, 0.4); }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      padding: 6px 18px;
+      border-radius: 15px;
+      font-weight: bold;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .nav-btn:hover { background: rgba(255, 255, 255, 0.25); }
+
+    /* Dynamic Body Window Display Area Layout */
+    .main-viewport {
+      flex: 1;
+      display: flex;
+      position: relative;
+    }
+
+    /* Transparent Glassmorphism Center Screen Box */
+    .home-screen {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 20px;
+      box-sizing: border-box;
+      z-index: 5;
     }
 
     h1 { 
@@ -91,7 +146,7 @@
       text-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     }
 
-    /* Frosted Semi-Transparent Search Panel Box */
+    /* Frosted Glass Input Container */
     .box { 
       display: flex; 
       width: 100%;
@@ -106,30 +161,25 @@
       margin-bottom: 25px;
     }
 
-    input { 
-      flex: 1; 
-      border: none; 
-      background: transparent; 
-      color: #ffffff; 
-      padding: 12px 20px; 
-      font-size: 16px; 
-      outline: none; 
+    .box input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
+      outline: none;
     }
-    input::placeholder { color: rgba(255, 255, 255, 0.45); }
+    .box input::placeholder { color: rgba(255, 255, 255, 0.5); }
 
-    button.launch-btn { 
-      background: rgba(255, 255, 255, 0.12); 
+    button.launch-btn {
+      background: rgba(255, 255, 255, 0.15);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #ffffff; 
-      padding: 12px 28px; 
-      border-radius: 25px; 
-      font-weight: bold; 
-      cursor: pointer; 
-      transition: background 0.2s, transform 0.1s;
-    }
-    button.launch-btn:hover { 
-      background: rgba(255, 255, 255, 0.25); 
-      transform: scale(1.02);
+      color: white;
+      padding: 12px 28px;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
     /* Popular Apps Grid Menu */
@@ -154,13 +204,20 @@
       font-size: 14px;
       cursor: pointer;
       transition: background 0.2s, transform 0.2s;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
-
     .app-card:hover {
       background: rgba(255, 255, 255, 0.18);
       transform: translateY(-3px);
-      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Embedded Internal Viewport Monitor Window */
+    .browser-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #ffffff;
+      display: none;
+      z-index: 1;
     }
 
     p { color: rgba(255, 255, 255, 0.4); font-size: 13px; margin-top: 30px; }
@@ -168,107 +225,108 @@
 </head>
 <body>
 
+  <!-- Dynamic Tab Control Navigation -->
   <div class="tab-bar" id="tabBar">
-    <div class="tab active" onclick="switchTab(this)">
-      <span class="tab-title">Tab 1</span>
+    <div class="tab active" onclick="switchTab(this)" data-tab-id="1">
+      <span class="tab-title">New Tab</span>
       <span class="close-tab" onclick="closeTab(event, this)">×</span>
     </div>
     <button class="new-tab-btn" onclick="createNewTab()">+</button>
   </div>
+
+  <!-- Live Sticky Address Header Row -->
+  <div class="nav-bar">
+    <button class="nav-btn" onclick="goHome()">Home</button>
+    <form id="nav-form" style="display: flex; flex: 1; gap: 10px;" onsubmit="handleNavSubmit(event)">
+      <div class="url-bar-container">
+        <input type="text" id="url-input" placeholder="Type search parameter or URL address here..." autocomplete="off">
+      </div>
+      <button type="submit" class="nav-btn">Go</button>
+    </form>
+  </div>
   
-  <div class="content-area">
-    <h1>Breeze</h1>
+  <!-- Active Viewport Display Module Matrix -->
+  <div class="main-viewport">
     
-    <div class="box">
-      <form id="gateway-form" style="display: flex; width: 100%;">
-        <input type="text" id="url-field" placeholder="Search unblocked web cleanly..." required autocomplete="off">
-        <button type="submit" class="launch-btn">Launch</button>
-      </form>
+    <!-- Home Selection Layer Screen -->
+    <div class="home-screen" id="homeScreen">
+      <h1>Breeze</h1>
+      <div class="box">
+        <form id="gateway-form" style="display: flex; width: 100%;" onsubmit="handleHomeSubmit(event)">
+          <input type="text" id="url-field" placeholder="Search unblocked web cleanly..." required autocomplete="off">
+          <button type="submit" class="launch-btn">Launch</button>
+        </form>
+      </div>
+
+      <div class="apps-container">
+        <a class="app-card" onclick="launchShortcut('youtube')">YouTube</a>
+        <a class="app-card" onclick="launchShortcut('discord')">Discord</a>
+        <a class="app-card" onclick="launchShortcut('tiktok')">TikTok</a>
+        <a class="app-card" onclick="launchShortcut('google')">Google</a>
+        <a class="app-card" onclick="launchShortcut('github')">GitHub</a>
+      </div>
+      <p>Breeze glass tab framework online.</p>
     </div>
 
-    <!-- Quick Link App Grid -->
-    <div class="apps-container">
-      <a class="app-card" onclick="launchShortcut('youtube.com')">YouTube</a>
-      <a class="app-card" onclick="launchShortcut('discord.com')">Discord</a>
-      <a class="app-card" onclick="launchShortcut('tiktok.com')">TikTok</a>
-      <a class="app-card" onclick="launchShortcut('google.com')">Google</a>
-      <a class="app-card" onclick="launchShortcut('github.com')">GitHub</a>
-    </div>
-    
-    <p>Breeze tab system matrix activated.</p>
+    <!-- Website Display Portal Window Frame -->
+    <iframe class="browser-frame" id="browserFrame"></iframe>
+
   </div>
 
   <script>
     let tabCount = 1;
+    let tabsData = {
+      "1": { url: "", isHome: true, label: "New Tab" }
+    };
+    let activeTabId = "1";
 
     function createNewTab() {
       tabCount++;
+      const id = tabCount.toString();
+      tabsData[id] = { url: "", isHome: true, label: "New Tab" };
+
       const tabBar = document.getElementById('tabBar');
       const addBtn = tabBar.querySelector('.new-tab-btn');
       
       const newTab = document.createElement('div');
       newTab.className = 'tab';
-      newTab.onclick = function() { switchTab(this); };
-      newTab.innerHTML = `<span class="tab-title">Tab ${tabCount}</span><span class="close-tab" onclick="closeTab(event, this)">×</span>`;
+      newTab.setAttribute('data-tab-id', id);
+      newTab.setAttribute('onclick', 'switchTab(this)');
+      newTab.innerHTML = `<span class="tab-title">New Tab</span><span class="close-tab" onclick="closeTab(event, this)">×</span>`;
       
       tabBar.insertBefore(newTab, addBtn);
-      setActiveTab(newTab);
-      document.getElementById('url-field').value = '';
+      switchTab(newTab);
     }
 
-    function switchTab(tabElement) { setActiveTab(tabElement); }
-
-    function setActiveTab(tabElement) {
+    function switchTab(tabElement) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       tabElement.classList.add('active');
+      
+      activeTabId = tabElement.getAttribute('data-tab-id');
+      const data = tabsData[activeTabId];
+
+      document.getElementById('url-input').value = data.url.includes('?q=') ? decodeURIComponent(data.url.split('?q=')[1]) : data.url;
+      document.getElementById('url-field').value = document.getElementById('url-input').value;
+
+      if (data.isHome) {
+        document.getElementById('homeScreen').style.display = "flex";
+        document.getElementById('browserFrame').style.display = "none";
+      } else {
+        document.getElementById('homeScreen').style.display = "none";
+        document.getElementById('browserFrame').style.display = "block";
+        document.getElementById('browserFrame').src = data.url;
+      }
     }
 
     function closeTab(event, closeButton) {
-      event.stopPropagation(); 
+      event.stopPropagation();
       const tabElement = closeButton.parentElement;
+      const id = tabElement.getAttribute('data-tab-id');
       const allTabs = document.querySelectorAll('.tab');
+      
       if (allTabs.length === 1) return;
+
+      delete tabsData[id];
+
       if (tabElement.classList.contains('active')) {
         const index = Array.from(allTabs).indexOf(tabElement);
-        const nextActive = allTabs[index + 1] || allTabs[index - 1];
-        if (nextActive) setActiveTab(nextActive);
-      }
-      tabElement.remove();
-    }
-
-    /* Clean browser router script that parses plain words or direct links correctly */
-    function processRequest(query) {
-      const activeTab = document.querySelector('.tab.active .tab-title');
-      if (activeTab) { 
-        let cleanLabel = query.replace(/^(https?:\/\/)?(www\.)?/, '');
-        activeTab.innerText = cleanLabel.length > 10 ? cleanLabel.substring(0, 10) + '...' : cleanLabel; 
-      }
-
-      let destination = query.trim();
-
-      // If it's a search question, parse it through DuckDuckGo's framework
-      if (!destination.includes('.') || destination.includes(' ')) {
-        destination = "https://duckduckgo.com" + encodeURIComponent(destination);
-      } else {
-        // Fix missing protocol prefixes dynamically for direct links
-        if (!/^https?:\/\//i.test(destination)) {
-          destination = "https://" + destination;
-        }
-      }
-
-      window.location.href = destination;
-    }
-
-    document.getElementById('gateway-form').onsubmit = (e) => {
-      e.preventDefault();
-      const inputVal = document.getElementById('url-field').value.trim();
-      processRequest(inputVal);
-    };
-
-    function launchShortcut(appName) {
-      processRequest(appName);
-    }
-  </script>
-
-</body>
-</html>

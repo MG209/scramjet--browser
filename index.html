@@ -7,6 +7,7 @@
   <style>
     body { 
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      /* Dynamically coordinates the design with your striped blue texture layout */
       background: linear-gradient(180deg, #1e69de 0%, #154fb3 50%, #0d3170 100%);
       color: #ffffff; 
       margin: 0;
@@ -19,11 +20,11 @@
     /* Tab Bar Styling Container - Translucent Glass Blend */
     .tab-bar {
       display: flex;
-      background: rgba(0, 0, 0, 0.15);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
       padding: 10px 10px 0 10px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
       gap: 5px;
       align-items: flex-end;
     }
@@ -45,10 +46,10 @@
     }
 
     .tab.active {
-      background: rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.15);
       color: #ffffff;
       font-weight: bold;
-      border-color: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.25);
       position: relative;
       z-index: 2;
     }
@@ -75,11 +76,11 @@
     /* Frosted Sticky Top URL Bar Controller Header */
     .nav-bar {
       display: flex;
-      background: rgba(0, 0, 0, 0.12);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
       padding: 8px 15px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
       align-items: center;
       gap: 10px;
     }
@@ -87,9 +88,9 @@
     .url-bar-container {
       flex: 1;
       display: flex;
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       padding: 4px 15px;
       align-items: center;
     }
@@ -102,18 +103,20 @@
       font-size: 14px;
       outline: none;
     }
+    .url-bar-container input::placeholder { color: rgba(255, 255, 255, 0.45); }
 
     .nav-btn {
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       color: #ffffff;
       padding: 6px 18px;
       border-radius: 15px;
       font-weight: bold;
       font-size: 13px;
       cursor: pointer;
+      transition: background 0.2s;
     }
-    .nav-btn:hover { background: rgba(255, 255, 255, 0.25); }
+    .nav-btn:hover { background: rgba(255, 255, 255, 0.3); }
 
     /* Dynamic Body Window Display Area Layout */
     .main-viewport {
@@ -143,18 +146,18 @@
       text-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     }
 
-    /* Frosted Glass Input Container */
+    /* Frosted Glass Input Box Container */
     .box { 
       display: flex; 
       width: 100%;
       max-width: 580px; 
       background: rgba(255, 255, 255, 0.07); 
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
       padding: 8px; 
       border-radius: 30px; 
-      border: 1px solid rgba(255, 255, 255, 0.18); 
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.22); 
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
       margin-bottom: 25px;
     }
 
@@ -170,14 +173,16 @@
     .box input::placeholder { color: rgba(255, 255, 255, 0.5); }
 
     button.launch-btn {
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       color: white;
       padding: 12px 28px;
       border-radius: 25px;
       font-weight: bold;
       cursor: pointer;
+      transition: background 0.2s;
     }
+    button.launch-btn:hover { background: rgba(255, 255, 255, 0.35); }
 
     /* Popular Apps Grid Menu */
     .apps-container {
@@ -190,9 +195,9 @@
 
     .app-card {
       background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       padding: 12px 24px;
       border-radius: 16px;
       color: #ffffff;
@@ -201,31 +206,25 @@
       font-size: 14px;
       cursor: pointer;
       transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     .app-card:hover {
       background: rgba(255, 255, 255, 0.18);
       transform: translateY(-3px);
     }
 
-    /* Internal Search Results Wrapper Canvas */
-    .results-frame {
+    /* Embedded Internal Viewport Display Framework */
+    .browser-frame {
       width: 100%;
       height: 100%;
-      background: #ffffff;
+      border: none;
+      background: #161a22; 
       display: none;
       z-index: 1;
-      overflow-y: auto;
-      padding: 30px;
-      box-sizing: border-box;
     }
 
-    /* Style Override to force the custom search to look clean and dark */
-    .gsc-control-cse { background-color: transparent !0important; border: none !important; }
-
-    p { color: rgba(255, 255, 255, 0.4); font-size: 13px; margin-top: 30px; }
+    p { color: rgba(255, 255, 255, 0.45); font-size: 13px; margin-top: 30px; }
   </style>
-  <!-- Native Search Node Component API Loader -->
-  <script async src="https://google.com"></script>
 </head>
 <body>
 
@@ -243,13 +242,13 @@
     <button class="nav-btn" onclick="goHome()">Home</button>
     <form id="nav-form" style="display: flex; flex: 1; gap: 10px;" onsubmit="handleNavSubmit(event)">
       <div class="url-bar-container">
-        <input type="text" id="url-input" placeholder="Type search parameter or link directory..." autocomplete="off">
+        <input type="text" id="url-input" placeholder="Type search parameter or URL address here..." autocomplete="off">
       </div>
       <button type="submit" class="nav-btn">Go</button>
     </form>
   </div>
   
-  <!-- Active Viewport Display Module Matrix -->
+  <!-- Active Viewport Display Area Layout -->
   <div class="main-viewport">
     
     <!-- Home Selection Layer Screen -->
@@ -273,23 +272,21 @@
     </div>
 
     <!-- Website Display Portal Window Frame Area -->
-    <div class="results-frame" id="resultsFrame">
-      <div class="gcse-searchresults-only"></div>
-    </div>
+    <iframe class="browser-frame" id="browserFrame"></iframe>
 
   </div>
 
   <script>
     let tabCount = 1;
     let tabsData = {
-      "1": { query: "", isHome: true, label: "New Tab" }
+      "1": { url: "", isHome: true, label: "New Tab" }
     };
     let activeTabId = "1";
 
     function createNewTab() {
       tabCount++;
       const id = tabCount.toString();
-      tabsData[id] = { query: "", isHome: true, label: "New Tab" };
+      tabsData[id] = { url: "", isHome: true, label: "New Tab" };
 
       const tabBar = document.getElementById('tabBar');
       const addBtn = tabBar.querySelector('.new-tab-btn');
@@ -311,19 +308,21 @@
       activeTabId = tabElement.getAttribute('data-tab-id');
       const data = tabsData[activeTabId];
 
-      document.getElementById('url-input').value = data.query;
-      document.getElementById('url-field').value = data.query;
+      let displayUrl = data.url;
+      if (displayUrl.includes('?q=')) {
+        displayUrl = decodeURIComponent(displayUrl.split('?q=')[1] || displayUrl);
+      }
+
+      document.getElementById('url-input').value = displayUrl;
+      document.getElementById('url-field').value = displayUrl;
 
       if (data.isHome) {
         document.getElementById('homeScreen').style.display = "flex";
-        document.getElementById('resultsFrame').style.display = "none";
+        document.getElementById('browserFrame').style.display = "none";
       } else {
         document.getElementById('homeScreen').style.display = "none";
-        document.getElementById('resultsFrame').style.display = "block";
-        // Instantly executes the query search variable node trigger
-        if (window.google && google.search && google.search.cse) {
-          google.search.cse.element.getElement('results-element').execute(data.query);
-        }
+        document.getElementById('browserFrame').style.display = "block";
+        document.getElementById('browserFrame').src = data.url;
       }
     }
 
@@ -331,3 +330,7 @@
       event.stopPropagation();
       const tabElement = closeButton.parentElement;
       const id = tabElement.getAttribute('data-tab-id');
+      const allTabs = document.querySelectorAll('.tab');
+      
+
+      

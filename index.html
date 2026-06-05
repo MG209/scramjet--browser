@@ -13,8 +13,6 @@
       height: 100vh;
       display: flex;
       flex-direction: column;
-      background-size: cover;
-      background-position: center;
     }
 
     /* Tab Bar Styling Container - White Theme */
@@ -85,7 +83,6 @@
       margin-bottom: 25px; 
       color: #000000; 
       letter-spacing: -1px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
     /* Frosted Transparent Glass Box */
@@ -122,11 +119,9 @@
       border-radius: 25px; 
       font-weight: bold; 
       cursor: pointer; 
-      transition: background 0.2s, transform 0.1s;
     }
     button.launch-btn:hover { 
       background: rgba(0, 0, 0, 0.12); 
-      transform: scale(1.02);
     }
 
     /* Popular Apps Grid Menu */
@@ -150,13 +145,11 @@
       font-weight: 600;
       font-size: 14px;
       cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
       box-shadow: 0 4px 15px rgba(0,0,0,0.02);
     }
 
     .app-card:hover {
       background: rgba(0, 0, 0, 0.08);
-      transform: translateY(-3px);
       border-color: rgba(0, 0, 0, 0.12);
     }
 
@@ -166,7 +159,7 @@
 <body>
 
   <div class="tab-bar" id="tabBar">
-    <div class="tab active" onclick="switchTab(this)" data-tab-id="1">
+    <div class="tab active" onclick="switchTab(this)">
       <span class="tab-title">Tab 1</span>
       <span class="close-tab" onclick="closeTab(event, this)">×</span>
     </div>
@@ -177,19 +170,20 @@
     <h1>Breeze</h1>
     
     <div class="box">
-      <form id="gateway-form" style="display: flex; width: 100%;">
-        <input type="text" id="url-field" placeholder="Search unblocked web or enter parameters..." required autocomplete="off">
+      <!-- FIXED NATIVE ROUTING: No JS window variables used to prevent URL smashing -->
+      <form action="https://html.duckduckgo.com/html/" method="GET" style="display: flex; width: 100%;">
+        <input type="text" name="q" id="url-field" placeholder="Search unblocked web..." required autocomplete="off">
         <button type="submit" class="launch-btn">Launch</button>
       </form>
     </div>
 
     <!-- Quick Link App Grid -->
     <div class="apps-container">
-      <a class="app-card" onclick="launchApp('youtube')">YouTube</a>
-      <a class="app-card" onclick="launchApp('discord')">Discord</a>
-      <a class="app-card" onclick="launchApp('tiktok')">TikTok</a>
-      <a class="app-card" onclick="launchApp('google')">Google</a>
-      <a class="app-card" onclick="launchApp('github')">GitHub</a>
+      <a class="app-card" onclick="launchShortcut('youtube')">YouTube</a>
+      <a class="app-card" onclick="launchShortcut('discord')">Discord</a>
+      <a class="app-card" onclick="launchShortcut('tiktok')">TikTok</a>
+      <a class="app-card" onclick="launchShortcut('google')">Google</a>
+      <a class="app-card" onclick="launchShortcut('github')">GitHub</a>
     </div>
     
     <p>Breeze tab system matrix activated.</p>
@@ -205,8 +199,7 @@
       
       const newTab = document.createElement('div');
       newTab.className = 'tab';
-      newTab.setAttribute('data-tab-id', tabCount);
-      newTab.setAttribute('onclick', 'switchTab(this)');
+      newTab.onclick = function() { switchTab(this); };
       newTab.innerHTML = `<span class="tab-title">Tab ${tabCount}</span><span class="close-tab" onclick="closeTab(event, this)">×</span>`;
       
       tabBar.insertBefore(newTab, addBtn);
@@ -225,9 +218,7 @@
       event.stopPropagation(); 
       const tabElement = closeButton.parentElement;
       const allTabs = document.querySelectorAll('.tab');
-      
       if (allTabs.length === 1) return;
-
       if (tabElement.classList.contains('active')) {
         const index = Array.from(allTabs).indexOf(tabElement);
         const nextActive = allTabs[index + 1] || allTabs[index - 1];
@@ -236,31 +227,14 @@
       tabElement.remove();
     }
 
-    /* FIX APPLIED: Core routing string now includes the search injection directory parameter path */
-    function processRequest(query) {
+    // Handles the card panel queries directly using clean paths
+    function launchShortcut(appName) {
       const activeTab = document.querySelector('.tab.active .tab-title');
-      if (activeTab) {
-        activeTab.innerText = query.length > 10 ? query.substring(0, 10) + '...' : query;
-      }
-
-      let cleanQuery = query.trim();
-      
-      // Points exactly to the unblocked HTML query parameter
-      window.location.href = "https://duckduckgo.com" + encodeURIComponent(cleanQuery);
-    }
-
-    document.getElementById('gateway-form').onsubmit = (e) => {
-      e.preventDefault();
-      const query = document.getElementById('url-field').value.trim();
-      processRequest(query);
-    };
-
-    function launchApp(appName) {
-      processRequest(appName);
+      if (activeTab) { activeTab.innerText = appName; }
+      window.location.href = "https://html.duckduckgo.com/html/?q=" + encodeURIComponent(appName);
     }
   </script>
 
 </body>
 </html>
 
-    

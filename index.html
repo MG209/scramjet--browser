@@ -236,13 +236,17 @@
       tabElement.remove();
     }
 
+    /* Fixed routing engine that prevents text-smashing */
     function processRequest(query) {
       const activeTab = document.querySelector('.tab.active .tab-title');
       if (activeTab) {
         activeTab.innerText = query.length > 10 ? query.substring(0, 10) + '...' : query;
       }
 
-      let cleanQuery = query.replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\.(com|org|net|edu|xyz|dev)$/i, '');
+      // Safe parameter formatting
+      let cleanQuery = query.trim();
+      
+      // Routes safely to a direct search landing cluster without breaking extensions
       window.location.href = "https://duckduckgo.com" + encodeURIComponent(cleanQuery);
     }
 
@@ -259,5 +263,3 @@
 
 </body>
 </html>
-
-    

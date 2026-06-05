@@ -1,18 +1,35 @@
 <!DOCTYPE html>
-<html>
-<head><title>My Proxy</title></head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Web Gateway</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding-top: 10%; background: #121212; color: white; }
+    input { padding: 10px; width: 60%; border-radius: 5px; border: 1px solid #444; background: #222; color: white; }
+    button { padding: 10px 20px; border-radius: 5px; border: none; background: #007bff; color: white; cursor: pointer; }
+    button:hover { background: #0056b3; }
+  </style>
+</head>
 <body>
-  <h1>My Proxy</h1>
-  <form id="proxy-form">
-    <input type="text" id="url" placeholder="Enter URL here...">
+  <h1>My Gateway</h1>
+  <form id="gateway-form">
+    <input type="text" id="target-url" placeholder="Enter URL here (e.g., google.com)..." required>
     <button type="submit">Go</button>
   </form>
+
   <script>
-    navigator.serviceWorker.register('/sw.js');
-    document.getElementById('proxy-form').onsubmit = (e) => {
+    document.getElementById('gateway-form').onsubmit = (e) => {
       e.preventDefault();
-      const url = document.getElementById('url').value;
-      window.location.href = '/scram/' + btoa(url);
+      let url = document.getElementById('target-url').value.trim();
+      
+      // Make sure the URL has http/https protocols
+      if (!/^https?:\/\//i.test(url)) {
+        url = 'https://' + url;
+      }
+      
+      // Routes traffic through a public, high-speed unblocking gateway mirror
+      window.location.href = "https://allorigins.win" + encodeURIComponent(url);
     };
   </script>
 </body>

@@ -7,27 +7,31 @@
   <style>
     body { 
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-      background: #ffffff; 
-      color: #1f2937; 
+      /* Automatically pulls your uploaded blue image as a full-cover wallpaper */
+      background: url('bg.png') no-repeat center center fixed; 
+      background-size: cover;
+      color: #ffffff; 
       margin: 0;
       height: 100vh;
       display: flex;
       flex-direction: column;
     }
 
-    /* Tab Bar Styling Container - White Theme */
+    /* Tab Bar Styling Container - Translucent Glass Blend */
     .tab-bar {
       display: flex;
-      background: #f1f5f9;
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       padding: 10px 10px 0 10px;
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       gap: 5px;
       align-items: flex-end;
     }
 
     .tab {
-      background: #e2e8f0;
-      color: #4b5563;
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.7);
       padding: 8px 16px;
       border-radius: 6px 6px 0 0;
       cursor: pointer;
@@ -35,38 +39,39 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      border: 1px solid #cbd5e1;
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-bottom: none;
       user-select: none;
+      transition: background 0.2s;
     }
 
     .tab.active {
-      background: #ffffff;
-      color: #000000;
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
       font-weight: bold;
-      border-color: #cbd5e1;
+      border-color: rgba(255, 255, 255, 0.25);
       position: relative;
       z-index: 2;
     }
 
     .close-tab {
       font-weight: bold;
-      color: #94a3b8;
+      color: rgba(255, 255, 255, 0.5);
       cursor: pointer;
     }
-    .close-tab:hover { color: #ef4444; }
+    .close-tab:hover { color: #ff5f56; }
 
     .new-tab-btn {
-      background: #e2e8f0;
-      color: #000000;
-      border: 1px solid #cbd5e1;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.1);
       padding: 6px 12px;
       border-radius: 6px;
       cursor: pointer;
       margin-bottom: 4px;
       font-weight: bold;
     }
-    .new-tab-btn:hover { background: #cbd5e1; }
+    .new-tab-btn:hover { background: rgba(255, 255, 255, 0.25); }
 
     /* Main Container Content Window */
     .content-area {
@@ -81,22 +86,23 @@
     h1 { 
       font-size: 3.5rem; 
       margin-bottom: 25px; 
-      color: #000000; 
+      color: #ffffff; 
       letter-spacing: -1px;
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
 
-    /* Frosted Transparent Glass Box */
+    /* Frosted Semi-Transparent Search Box */
     .box { 
       display: flex; 
       width: 100%;
       max-width: 580px; 
-      background: rgba(0, 0, 0, 0.03); 
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
+      background: rgba(255, 255, 255, 0.08); 
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       padding: 8px; 
       border-radius: 30px; 
-      border: 1px solid rgba(0, 0, 0, 0.08); 
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.2); 
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
       margin-bottom: 25px;
     }
 
@@ -104,24 +110,26 @@
       flex: 1; 
       border: none; 
       background: transparent; 
-      color: #000000; 
+      color: #ffffff; 
       padding: 12px 20px; 
       font-size: 16px; 
       outline: none; 
     }
-    input::placeholder { color: rgba(0, 0, 0, 0.4); }
+    input::placeholder { color: rgba(255, 255, 255, 0.5); }
 
     button.launch-btn { 
-      background: rgba(0, 0, 0, 0.06); 
-      border: 1px solid rgba(0, 0, 0, 0.05);
-      color: #000000; 
+      background: rgba(255, 255, 255, 0.15); 
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #ffffff; 
       padding: 12px 28px; 
       border-radius: 25px; 
       font-weight: bold; 
       cursor: pointer; 
+      transition: background 0.2s, transform 0.1s;
     }
     button.launch-btn:hover { 
-      background: rgba(0, 0, 0, 0.12); 
+      background: rgba(255, 255, 255, 0.3); 
+      transform: scale(1.02);
     }
 
     /* Popular Apps Grid Menu */
@@ -134,26 +142,28 @@
     }
 
     .app-card {
-      background: rgba(0, 0, 0, 0.03);
+      background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       padding: 12px 24px;
       border-radius: 16px;
-      color: #000000;
+      color: #ffffff;
       text-decoration: none;
       font-weight: 600;
       font-size: 14px;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 
     .app-card:hover {
-      background: rgba(0, 0, 0, 0.08);
-      border-color: rgba(0, 0, 0, 0.12);
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+      border-color: rgba(255, 255, 255, 0.3);
     }
 
-    p { color: rgba(0, 0, 0, 0.3); font-size: 13px; margin-top: 30px; }
+    p { color: rgba(255, 255, 255, 0.5); font-size: 13px; margin-top: 30px; }
   </style>
 </head>
 <body>
@@ -170,9 +180,8 @@
     <h1>Breeze</h1>
     
     <div class="box">
-      <!-- FIXED NATIVE ROUTING: No JS window variables used to prevent URL smashing -->
-      <form action="https://html.duckduckgo.com/html/" method="GET" style="display: flex; width: 100%;">
-        <input type="text" name="q" id="url-field" placeholder="Search unblocked web..." required autocomplete="off">
+      <form id="gateway-form" style="display: flex; width: 100%;">
+        <input type="text" id="url-field" placeholder="Search unblocked web cleanly..." required autocomplete="off">
         <button type="submit" class="launch-btn">Launch</button>
       </form>
     </div>
@@ -181,7 +190,7 @@
     <div class="apps-container">
       <a class="app-card" onclick="launchShortcut('youtube')">YouTube</a>
       <a class="app-card" onclick="launchShortcut('discord')">Discord</a>
-      <a class="app-card" onclick="launchShortcut('tiktok')">TikTok</a>
+      <a class="app-card" onclick="launchApp('tiktok')">TikTok</a>
       <a class="app-card" onclick="launchShortcut('google')">Google</a>
       <a class="app-card" onclick="launchShortcut('github')">GitHub</a>
     </div>
@@ -227,11 +236,22 @@
       tabElement.remove();
     }
 
-    // Handles the card panel queries directly using clean paths
-    function launchShortcut(appName) {
+    function routeStealthStream(rawQuery) {
       const activeTab = document.querySelector('.tab.active .tab-title');
-      if (activeTab) { activeTab.innerText = appName; }
-      window.location.href = "https://html.duckduckgo.com/html/?q=" + encodeURIComponent(appName);
+      if (activeTab) { activeTab.innerText = rawQuery.substring(0, 10); }
+
+      let safePath = "https://duckduckgo.com" + encodeURIComponent(rawQuery);
+      window.location.href = "https://allorigins.win" + encodeURIComponent(safePath);
+    }
+
+    document.getElementById('gateway-form').onsubmit = (e) => {
+      e.preventDefault();
+      const inputVal = document.getElementById('url-field').value.trim();
+      routeStealthStream(inputVal);
+    };
+
+    function launchShortcut(appName) {
+      routeStealthStream(appName);
     }
   </script>
 

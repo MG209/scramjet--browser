@@ -3,34 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Web Gateway</title>
+  <title>My Proxy Browser</title>
   <style>
-    body { font-family: sans-serif; text-align: center; padding-top: 10%; background: #121212; color: white; }
-    input { padding: 10px; width: 60%; border-radius: 5px; border: 1px solid #444; background: #222; color: white; }
-    button { padding: 10px 20px; border-radius: 5px; border: none; background: #007bff; color: white; cursor: pointer; }
-    button:hover { background: #0056b3; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding-top: 12%; background: #0f0f12; color: #ffffff; margin: 0; }
+    h1 { font-size: 2.5rem; margin-bottom: 20px; color: #4f46e5; letter-spacing: -1px; }
+    .search-container { display: flex; max-width: 600px; margin: 0 auto; background: #1e1e24; padding: 6px; border-radius: 30px; border: 2px solid #2e2e38; box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    input { flex: 1; border: none; background: transparent; color: white; padding: 12px 20px; font-size: 16px; outline: none; }
+    button { background: #4f46e5; border: none; color: white; padding: 12px 26px; border-radius: 25px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+    button:hover { background: #4338ca; }
+    p { color: #6b7280; margin-top: 15px; font-size: 14px; }
   </style>
 </head>
 <body>
-  <h1>My Gateway</h1>
-  <form id="gateway-form">
-    <input type="text" id="target-url" placeholder="Enter URL here (e.g., google.com)..." required>
-    <button type="submit">Go</button>
-  </form>
+
+  <h1>My Proxy Browser</h1>
+  
+  <div class="search-container">
+    <form id="proxy-form" style="display: flex; width: 100%;">
+      <input type="text" id="target-url" placeholder="Search web or enter URL (e.g., google.com)..." required>
+      <button type="submit">Search</button>
+    </form>
+  </div>
+  
+  <p>Secure web traffic protocol activated.</p>
 
   <script>
-    document.getElementById('gateway-form').onsubmit = (e) => {
+    document.getElementById('proxy-form').onsubmit = (e) => {
       e.preventDefault();
-      let url = document.getElementById('target-url').value.trim();
+      let inputVal = document.getElementById('target-url').value.trim();
       
-      // Make sure the URL has http/https protocols
-      if (!/^https?:\/\//i.test(url)) {
-        url = 'https://' + url;
+      // If it's not a direct URL format, turn it into a secure Google search query
+      if (!inputVal.includes('.') || inputVal.includes(' ')) {
+        inputVal = 'https://google.com' + encodeURIComponent(inputVal);
       }
       
-      // Routes traffic through a public, high-speed unblocking gateway mirror
-      window.location.href = "https://allorigins.win" + encodeURIComponent(url);
+      // Fix missing protocol prefixes automatically
+      if (!/^https?:\/\//i.test(inputVal)) {
+        inputVal = 'https://' + inputVal;
+      }
+      
+      // Encodes the target URL to bypass network standard firewalls
+      const encodedUrl = btoa(inputVal).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      
+      // Routes your request directly through a public high-speed proxy gateway mirror
+      window.location.href = "https://incog.dev" + encodedUrl;
     };
   </script>
+
 </body>
 </html>

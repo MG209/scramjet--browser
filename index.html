@@ -7,8 +7,8 @@
   <style>
     body { 
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-      background: #0d1117; 
-      color: #ffffff; 
+      background: #ffffff; 
+      color: #1f2937; 
       margin: 0;
       height: 100vh;
       display: flex;
@@ -17,21 +17,19 @@
       background-position: center;
     }
 
-    /* Tab Bar Styling Container */
+    /* Tab Bar Styling Container - White Theme */
     .tab-bar {
       display: flex;
-      background: rgba(22, 27, 34, 0.6);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: #f1f5f9;
       padding: 10px 10px 0 10px;
-      border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+      border-bottom: 1px solid #e2e8f0;
       gap: 5px;
       align-items: flex-end;
     }
 
     .tab {
-      background: rgba(33, 38, 45, 0.5);
-      color: #c9d1d9;
+      background: #e2e8f0;
+      color: #4b5563;
       padding: 8px 16px;
       border-radius: 6px 6px 0 0;
       cursor: pointer;
@@ -39,38 +37,38 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      border: 1px solid rgba(48, 54, 61, 0.4);
+      border: 1px solid #cbd5e1;
       border-bottom: none;
       user-select: none;
     }
 
     .tab.active {
-      background: rgba(13, 17, 23, 0.8);
-      color: #ffffff;
+      background: #ffffff;
+      color: #000000;
       font-weight: bold;
-      border-color: rgba(48, 54, 61, 0.8);
+      border-color: #cbd5e1;
       position: relative;
       z-index: 2;
     }
 
     .close-tab {
       font-weight: bold;
-      color: #8b949e;
+      color: #94a3b8;
       cursor: pointer;
     }
-    .close-tab:hover { color: #f85149; }
+    .close-tab:hover { color: #ef4444; }
 
     .new-tab-btn {
-      background: rgba(33, 38, 45, 0.6);
-      color: white;
-      border: 1px solid rgba(48, 54, 61, 0.4);
+      background: #e2e8f0;
+      color: #000000;
+      border: 1px solid #cbd5e1;
       padding: 6px 12px;
       border-radius: 6px;
       cursor: pointer;
       margin-bottom: 4px;
       font-weight: bold;
     }
-    .new-tab-btn:hover { background: rgba(48, 54, 61, 0.8); }
+    .new-tab-btn:hover { background: #cbd5e1; }
 
     /* Main Container Content Window */
     .content-area {
@@ -85,23 +83,23 @@
     h1 { 
       font-size: 3.5rem; 
       margin-bottom: 25px; 
-      color: #ffffff; 
+      color: #000000; 
       letter-spacing: -1px;
-      text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
-    /* Transparent Panel Box */
+    /* Frosted Transparent Glass Box */
     .box { 
       display: flex; 
       width: 100%;
       max-width: 580px; 
-      background: rgba(255, 255, 255, 0.05); 
+      background: rgba(0, 0, 0, 0.03); 
       backdrop-filter: blur(15px);
       -webkit-backdrop-filter: blur(15px);
       padding: 8px; 
       border-radius: 30px; 
-      border: 1px solid rgba(255, 255, 255, 0.15); 
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(0, 0, 0, 0.08); 
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.06);
       margin-bottom: 25px;
     }
 
@@ -109,17 +107,17 @@
       flex: 1; 
       border: none; 
       background: transparent; 
-      color: white; 
+      color: #000000; 
       padding: 12px 20px; 
       font-size: 16px; 
       outline: none; 
     }
-    input::placeholder { color: rgba(255, 255, 255, 0.4); }
+    input::placeholder { color: rgba(0, 0, 0, 0.4); }
 
     button.launch-btn { 
-      background: rgba(255, 255, 255, 0.15); 
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: white; 
+      background: rgba(0, 0, 0, 0.06); 
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      color: #000000; 
       padding: 12px 28px; 
       border-radius: 25px; 
       font-weight: bold; 
@@ -127,7 +125,7 @@
       transition: background 0.2s, transform 0.1s;
     }
     button.launch-btn:hover { 
-      background: rgba(255, 255, 255, 0.3); 
+      background: rgba(0, 0, 0, 0.12); 
       transform: scale(1.02);
     }
 
@@ -141,28 +139,28 @@
     }
 
     .app-card {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(0, 0, 0, 0.03);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.06);
       padding: 12px 24px;
       border-radius: 16px;
-      color: white;
+      color: #000000;
       text-decoration: none;
       font-weight: 600;
       font-size: 14px;
       cursor: pointer;
       transition: background 0.2s, transform 0.2s;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.02);
     }
 
     .app-card:hover {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(0, 0, 0, 0.08);
       transform: translateY(-3px);
-      border-color: rgba(255, 255, 255, 0.25);
+      border-color: rgba(0, 0, 0, 0.12);
     }
 
-    p { color: rgba(255, 255, 255, 0.3); font-size: 13px; margin-top: 30px; }
+    p { color: rgba(0, 0, 0, 0.3); font-size: 13px; margin-top: 30px; }
   </style>
 </head>
 <body>
@@ -180,18 +178,18 @@
     
     <div class="box">
       <form id="gateway-form" style="display: flex; width: 100%;">
-        <input type="text" id="url-field" placeholder="Search web or enter URL..." required autocomplete="off">
+        <input type="text" id="url-field" placeholder="Search unblocked web or enter parameters..." required autocomplete="off">
         <button type="submit" class="launch-btn">Launch</button>
       </form>
     </div>
 
     <!-- Quick Link App Grid -->
     <div class="apps-container">
-      <a class="app-card" onclick="launchApp('https://youtube.com')">YouTube</a>
-      <a class="app-card" onclick="launchApp('https://discord.com')">Discord</a>
-      <a class="app-card" onclick="launchApp('https://tiktok.com')">TikTok</a>
-      <a class="app-card" onclick="launchApp('https://google.com')">Google</a>
-      <a class="app-card" onclick="launchApp('https://github.com')">GitHub</a>
+      <a class="app-card" onclick="launchApp('youtube')">YouTube</a>
+      <a class="app-card" onclick="launchApp('discord')">Discord</a>
+      <a class="app-card" onclick="launchApp('tiktok')">TikTok</a>
+      <a class="app-card" onclick="launchApp('google')">Google</a>
+      <a class="app-card" onclick="launchApp('github')">GitHub</a>
     </div>
     
     <p>Breeze tab system matrix activated.</p>
@@ -216,9 +214,7 @@
       document.getElementById('url-field').value = '';
     }
 
-    function switchTab(tabElement) {
-      setActiveTab(tabElement);
-    }
+    function switchTab(tabElement) { setActiveTab(tabElement); }
 
     function setActiveTab(tabElement) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -240,37 +236,28 @@
       tabElement.remove();
     }
 
-    // Handles the unblocking gateway loop
-    function processRequest(destinationUrl) {
+    function processRequest(query) {
       const activeTab = document.querySelector('.tab.active .tab-title');
       if (activeTab) {
-        let cleanName = destinationUrl.replace(/^(https?:\/\/)?(www\.)?/, '');
-        activeTab.innerText = cleanName.length > 10 ? cleanName.substring(0, 10) + '...' : cleanName;
+        activeTab.innerText = query.length > 10 ? query.substring(0, 10) + '...' : query;
       }
 
-      if (!destinationUrl.includes('.') || destinationUrl.includes(' ')) {
-        destinationUrl = 'https://google.com/search?q=' + encodeURIComponent(destinationUrl);
-      } else if (!/^https?:\/\//i.test(destinationUrl)) {
-        destinationUrl = 'https://' + destinationUrl;
-      }
-      
-      const encoded = btoa(destinationUrl).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-      window.location.href = "https://tachyons.xyz" + encoded;
+      let cleanQuery = query.replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\.(com|org|net|edu|xyz|dev)$/i, '');
+      window.location.href = "https://duckduckgo.com" + encodeURIComponent(cleanQuery);
     }
 
-    // Input Form Submission Handler
     document.getElementById('gateway-form').onsubmit = (e) => {
       e.preventDefault();
       const query = document.getElementById('url-field').value.trim();
       processRequest(query);
     };
 
-    // Quick App Button Click Handler
-    function launchApp(appUrl) {
-      processRequest(appUrl);
+    function launchApp(appName) {
+      processRequest(appName);
     }
   </script>
 
 </body>
 </html>
 
+    

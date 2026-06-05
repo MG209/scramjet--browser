@@ -13,20 +13,24 @@
       height: 100vh;
       display: flex;
       flex-direction: column;
+      background-size: cover;
+      background-position: center;
     }
 
     /* Tab Bar Styling Container */
     .tab-bar {
       display: flex;
-      background: #161b22;
+      background: rgba(22, 27, 34, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       padding: 10px 10px 0 10px;
-      border-bottom: 1px solid #30363d;
+      border-bottom: 1px solid rgba(48, 54, 61, 0.5);
       gap: 5px;
       align-items: flex-end;
     }
 
     .tab {
-      background: #21262d;
+      background: rgba(33, 38, 45, 0.5);
       color: #c9d1d9;
       padding: 8px 16px;
       border-radius: 6px 6px 0 0;
@@ -35,16 +39,16 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      border: 1px solid #30363d;
+      border: 1px solid rgba(48, 54, 61, 0.4);
       border-bottom: none;
       user-select: none;
     }
 
     .tab.active {
-      background: #0d1117;
+      background: rgba(13, 17, 23, 0.8);
       color: #ffffff;
       font-weight: bold;
-      border-color: #30363d;
+      border-color: rgba(48, 54, 61, 0.8);
       position: relative;
       z-index: 2;
     }
@@ -57,16 +61,16 @@
     .close-tab:hover { color: #f85149; }
 
     .new-tab-btn {
-      background: #21262d;
+      background: rgba(33, 38, 45, 0.6);
       color: white;
-      border: 1px solid #30363d;
+      border: 1px solid rgba(48, 54, 61, 0.4);
       padding: 6px 12px;
       border-radius: 6px;
       cursor: pointer;
       margin-bottom: 4px;
       font-weight: bold;
     }
-    .new-tab-btn:hover { background: #30363d; }
+    .new-tab-btn:hover { background: rgba(48, 54, 61, 0.8); }
 
     /* Main Container Content Window */
     .content-area {
@@ -79,23 +83,26 @@
     }
 
     h1 { 
-      font-size: 3rem; 
+      font-size: 3.5rem; 
       margin-bottom: 25px; 
       color: #ffffff; 
       letter-spacing: -1px;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
 
+    /* Transparent Panel Box */
     .box { 
       display: flex; 
       width: 100%;
-      max-width: 550px; 
-      background: rgba(255, 255, 255, 0.06); 
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      max-width: 580px; 
+      background: rgba(255, 255, 255, 0.05); 
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
       padding: 8px; 
       border-radius: 30px; 
       border: 1px solid rgba(255, 255, 255, 0.15); 
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+      margin-bottom: 25px;
     }
 
     input { 
@@ -110,23 +117,56 @@
     input::placeholder { color: rgba(255, 255, 255, 0.4); }
 
     button.launch-btn { 
-      background: rgba(255, 255, 255, 0.2); 
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.15); 
+      border: 1px solid rgba(255, 255, 255, 0.15);
       color: white; 
       padding: 12px 28px; 
       border-radius: 25px; 
       font-weight: bold; 
       cursor: pointer; 
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.1s;
     }
-    button.launch-btn:hover { background: rgba(255, 255, 255, 0.35); }
+    button.launch-btn:hover { 
+      background: rgba(255, 255, 255, 0.3); 
+      transform: scale(1.02);
+    }
 
-    p { color: rgba(255, 255, 255, 0.4); font-size: 14px; margin-top: 20px; }
+    /* Popular Apps Grid Menu */
+    .apps-container {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 580px;
+    }
+
+    .app-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 12px 24px;
+      border-radius: 16px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .app-card:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-3px);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    p { color: rgba(255, 255, 255, 0.3); font-size: 13px; margin-top: 30px; }
   </style>
 </head>
 <body>
 
-  <!-- Dynamic Tab Control Navigation -->
   <div class="tab-bar" id="tabBar">
     <div class="tab active" onclick="switchTab(this)" data-tab-id="1">
       <span class="tab-title">Tab 1</span>
@@ -140,9 +180,18 @@
     
     <div class="box">
       <form id="gateway-form" style="display: flex; width: 100%;">
-        <input type="text" id="url-field" placeholder="Type search phrase or destination URL here..." required autocomplete="off">
+        <input type="text" id="url-field" placeholder="Search web or enter URL..." required autocomplete="off">
         <button type="submit" class="launch-btn">Launch</button>
       </form>
+    </div>
+
+    <!-- Quick Link App Grid -->
+    <div class="apps-container">
+      <a class="app-card" onclick="launchApp('https://youtube.com')">YouTube</a>
+      <a class="app-card" onclick="launchApp('https://discord.com')">Discord</a>
+      <a class="app-card" onclick="launchApp('https://tiktok.com')">TikTok</a>
+      <a class="app-card" onclick="launchApp('https://google.com')">Google</a>
+      <a class="app-card" onclick="launchApp('https://github.com')">GitHub</a>
     </div>
     
     <p>Breeze tab system matrix activated.</p>
@@ -181,7 +230,7 @@
       const tabElement = closeButton.parentElement;
       const allTabs = document.querySelectorAll('.tab');
       
-      if (allTabs.length === 1) return; // Prevent closing the final remaining tab
+      if (allTabs.length === 1) return;
 
       if (tabElement.classList.contains('active')) {
         const index = Array.from(allTabs).indexOf(tabElement);
@@ -191,22 +240,35 @@
       tabElement.remove();
     }
 
-    // Encrypted network form router
-    document.getElementById('gateway-form').onsubmit = (e) => {
-      e.preventDefault();
-      let query = document.getElementById('url-field').value.trim();
-      
-      // Update browser tab name to show current request destination
+    // Handles the unblocking gateway loop
+    function processRequest(destinationUrl) {
       const activeTab = document.querySelector('.tab.active .tab-title');
       if (activeTab) {
-        activeTab.innerText = query.length > 10 ? query.substring(0, 10) + '...' : query;
+        let cleanName = destinationUrl.replace(/^(https?:\/\/)?(www\.)?/, '');
+        activeTab.innerText = cleanName.length > 10 ? cleanName.substring(0, 10) + '...' : cleanName;
       }
 
-      query = query.replace(/^(https?:\/\/)?(www\.)?/, '');
+      if (!destinationUrl.includes('.') || destinationUrl.includes(' ')) {
+        destinationUrl = 'https://google.com/search?q=' + encodeURIComponent(destinationUrl);
+      } else if (!/^https?:\/\//i.test(destinationUrl)) {
+        destinationUrl = 'https://' + destinationUrl;
+      }
       
-      // Unblockable cluster routing injection point
-      window.location.href = "https://startpage.com" + encodeURIComponent(query);
+      const encoded = btoa(destinationUrl).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      window.location.href = "https://tachyons.xyz" + encoded;
+    }
+
+    // Input Form Submission Handler
+    document.getElementById('gateway-form').onsubmit = (e) => {
+      e.preventDefault();
+      const query = document.getElementById('url-field').value.trim();
+      processRequest(query);
     };
+
+    // Quick App Button Click Handler
+    function launchApp(appUrl) {
+      processRequest(appUrl);
+    }
   </script>
 
 </body>

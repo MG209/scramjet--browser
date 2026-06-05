@@ -7,7 +7,6 @@
   <style>
     body { 
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-      /* Perfectly balances with your blue gradient striped texture image */
       background: linear-gradient(180deg, #1e69de 0%, #154fb3 50%, #0d3170 100%);
       color: #ffffff; 
       margin: 0;
@@ -103,7 +102,6 @@
       font-size: 14px;
       outline: none;
     }
-    .url-bar-container input::placeholder { color: rgba(255, 255, 255, 0.4); }
 
     .nav-btn {
       background: rgba(255, 255, 255, 0.12);
@@ -114,7 +112,6 @@
       font-weight: bold;
       font-size: 13px;
       cursor: pointer;
-      transition: background 0.2s;
     }
     .nav-btn:hover { background: rgba(255, 255, 255, 0.25); }
 
@@ -210,18 +207,25 @@
       transform: translateY(-3px);
     }
 
-    /* Embedded Internal Viewport Monitor Window */
-    .browser-frame {
+    /* Internal Search Results Wrapper Canvas */
+    .results-frame {
       width: 100%;
       height: 100%;
-      border: none;
       background: #ffffff;
       display: none;
       z-index: 1;
+      overflow-y: auto;
+      padding: 30px;
+      box-sizing: border-box;
     }
+
+    /* Style Override to force the custom search to look clean and dark */
+    .gsc-control-cse { background-color: transparent !0important; border: none !important; }
 
     p { color: rgba(255, 255, 255, 0.4); font-size: 13px; margin-top: 30px; }
   </style>
+  <!-- Native Search Node Component API Loader -->
+  <script async src="https://google.com"></script>
 </head>
 <body>
 
@@ -239,7 +243,7 @@
     <button class="nav-btn" onclick="goHome()">Home</button>
     <form id="nav-form" style="display: flex; flex: 1; gap: 10px;" onsubmit="handleNavSubmit(event)">
       <div class="url-bar-container">
-        <input type="text" id="url-input" placeholder="Type search parameter or URL address here..." autocomplete="off">
+        <input type="text" id="url-input" placeholder="Type search parameter or link directory..." autocomplete="off">
       </div>
       <button type="submit" class="nav-btn">Go</button>
     </form>
@@ -268,22 +272,24 @@
       <p>Breeze glass tab framework online.</p>
     </div>
 
-    <!-- Website Display Portal Window Frame -->
-    <iframe class="browser-frame" id="browserFrame"></iframe>
+    <!-- Website Display Portal Window Frame Area -->
+    <div class="results-frame" id="resultsFrame">
+      <div class="gcse-searchresults-only"></div>
+    </div>
 
   </div>
 
   <script>
     let tabCount = 1;
     let tabsData = {
-      "1": { url: "", isHome: true, label: "New Tab" }
+      "1": { query: "", isHome: true, label: "New Tab" }
     };
     let activeTabId = "1";
 
     function createNewTab() {
       tabCount++;
       const id = tabCount.toString();
-      tabsData[id] = { url: "", isHome: true, label: "New Tab" };
+      tabsData[id] = { query: "", isHome: true, label: "New Tab" };
 
       const tabBar = document.getElementById('tabBar');
       const addBtn = tabBar.querySelector('.new-tab-btn');
@@ -305,16 +311,19 @@
       activeTabId = tabElement.getAttribute('data-tab-id');
       const data = tabsData[activeTabId];
 
-      document.getElementById('url-input').value = data.url.includes('?q=') ? decodeURIComponent(data.url.split('?q=')[1]) : data.url;
-      document.getElementById('url-field').value = document.getElementById('url-input').value;
+      document.getElementById('url-input').value = data.query;
+      document.getElementById('url-field').value = data.query;
 
       if (data.isHome) {
         document.getElementById('homeScreen').style.display = "flex";
-        document.getElementById('browserFrame').style.display = "none";
+        document.getElementById('resultsFrame').style.display = "none";
       } else {
         document.getElementById('homeScreen').style.display = "none";
-        document.getElementById('browserFrame').style.display = "block";
-        document.getElementById('browserFrame').src = data.url;
+        document.getElementById('resultsFrame').style.display = "block";
+        // Instantly executes the query search variable node trigger
+        if (window.google && google.search && google.search.cse) {
+          google.search.cse.element.getElement('results-element').execute(data.query);
+        }
       }
     }
 
@@ -322,11 +331,3 @@
       event.stopPropagation();
       const tabElement = closeButton.parentElement;
       const id = tabElement.getAttribute('data-tab-id');
-      const allTabs = document.querySelectorAll('.tab');
-      
-      if (allTabs.length === 1) return;
-
-      delete tabsData[id];
-
-      if (tabElement.classList.contains('active')) {
-        const index = Array.from(allTabs).indexOf(tabElement);

@@ -1,336 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Breeze</title>
-  <style>
-    body { 
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-      /* Dynamically coordinates the design with your striped blue texture layout */
-      background: linear-gradient(180deg, #1e69de 0%, #154fb3 50%, #0d3170 100%);
-      color: #ffffff; 
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breeze Functional Browser</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            color: #f8fafc;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
 
-    /* Tab Bar Styling Container - Translucent Glass Blend */
-    .tab-bar {
-      display: flex;
-      background: rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      padding: 10px 10px 0 10px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-      gap: 5px;
-      align-items: flex-end;
-    }
+        /* Top Navigation and Tab Bar */
+        header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
 
-    .tab {
-      background: rgba(255, 255, 255, 0.08);
-      color: rgba(255, 255, 255, 0.65);
-      padding: 8px 16px;
-      border-radius: 6px 6px 0 0;
-      cursor: pointer;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-bottom: none;
-      user-select: none;
-      transition: background 0.2s;
-    }
+        .logo {
+            font-weight: bold;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.2rem;
+        }
 
-    .tab.active {
-      background: rgba(255, 255, 255, 0.15);
-      color: #ffffff;
-      font-weight: bold;
-      border-color: rgba(255, 255, 255, 0.25);
-      position: relative;
-      z-index: 2;
-    }
+        /* Input URL Bar */
+        .address-bar {
+            flex-grow: 1;
+            display: flex;
+            gap: 0.5rem;
+        }
 
-    .close-tab {
-      font-weight: bold;
-      color: rgba(255, 255, 255, 0.4);
-      cursor: pointer;
-    }
-    .close-tab:hover { color: #ff5f56; }
+        .address-bar input {
+            flex-grow: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem;
+            border-radius: 6px;
+            color: white;
+            font-size: 0.9rem;
+        }
 
-    .new-tab-btn {
-      background: rgba(255, 255, 255, 0.08);
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-bottom: 4px;
-      font-weight: bold;
-    }
-    .new-tab-btn:hover { background: rgba(255, 255, 255, 0.2); }
+        .address-bar button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
 
-    /* Frosted Sticky Top URL Bar Controller Header */
-    .nav-bar {
-      display: flex;
-      background: rgba(0, 0, 0, 0.15);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      padding: 8px 15px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      align-items: center;
-      gap: 10px;
-    }
+        /* Quick Bookmark Links */
+        .bookmarks {
+            display: flex;
+            gap: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
 
-    .url-bar-container {
-      flex: 1;
-      display: flex;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 4px 15px;
-      align-items: center;
-    }
+        .bookmark-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
 
-    .url-bar-container input {
-      flex: 1;
-      border: none;
-      background: transparent;
-      color: #ffffff;
-      font-size: 14px;
-      outline: none;
-    }
-    .url-bar-container input::placeholder { color: rgba(255, 255, 255, 0.45); }
+        .bookmark-btn:hover {
+            color: #38bdf8;
+        }
 
-    .nav-btn {
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #ffffff;
-      padding: 6px 18px;
-      border-radius: 15px;
-      font-weight: bold;
-      font-size: 13px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .nav-btn:hover { background: rgba(255, 255, 255, 0.3); }
+        /* Main Viewport Workspace */
+        .browser-viewport {
+            flex-grow: 1;
+            position: relative;
+            background: #000;
+        }
 
-    /* Dynamic Body Window Display Area Layout */
-    .main-viewport {
-      flex: 1;
-      display: flex;
-      position: relative;
-    }
+        /* Embedded Browser Frame */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
 
-    /* Transparent Glassmorphism Center Screen Box */
-    .home-screen {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      box-sizing: border-box;
-      z-index: 5;
-    }
-
-    h1 { 
-      font-size: 3.5rem; 
-      margin-bottom: 25px; 
-      color: #ffffff; 
-      letter-spacing: -1px;
-      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    }
-
-    /* Frosted Glass Input Box Container */
-    .box { 
-      display: flex; 
-      width: 100%;
-      max-width: 580px; 
-      background: rgba(255, 255, 255, 0.07); 
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      padding: 8px; 
-      border-radius: 30px; 
-      border: 1px solid rgba(255, 255, 255, 0.22); 
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-      margin-bottom: 25px;
-    }
-
-    .box input {
-      flex: 1;
-      border: none;
-      background: transparent;
-      color: white;
-      padding: 12px 20px;
-      font-size: 16px;
-      outline: none;
-    }
-    .box input::placeholder { color: rgba(255, 255, 255, 0.5); }
-
-    button.launch-btn {
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: white;
-      padding: 12px 28px;
-      border-radius: 25px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    button.launch-btn:hover { background: rgba(255, 255, 255, 0.35); }
-
-    /* Popular Apps Grid Menu */
-    .apps-container {
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      flex-wrap: wrap;
-      max-width: 580px;
-    }
-
-    .app-card {
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 12px 24px;
-      border-radius: 16px;
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    .app-card:hover {
-      background: rgba(255, 255, 255, 0.18);
-      transform: translateY(-3px);
-    }
-
-    /* Embedded Internal Viewport Display Framework */
-    .browser-frame {
-      width: 100%;
-      height: 100%;
-      border: none;
-      background: #161a22; 
-      display: none;
-      z-index: 1;
-    }
-
-    p { color: rgba(255, 255, 255, 0.45); font-size: 13px; margin-top: 30px; }
-  </style>
+        /* Error/Info Panel overlay if frame fails */
+        .frame-notice {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            padding: 0.5rem;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            pointer-events: none;
+            color: #fbbf24;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Dynamic Tab Control Navigation -->
-  <div class="tab-bar" id="tabBar">
-    <div class="tab active" onclick="switchTab(this)" data-tab-id="1">
-      <span class="tab-title">New Tab</span>
-      <span class="close-tab" onclick="closeTab(event, this)">×</span>
-    </div>
-    <button class="new-tab-btn" onclick="createNewTab()">+</button>
-  </div>
+    <!-- Browser Controls Header -->
+    <header>
+        <div class="logo">Breeze</div>
+        <div class="address-bar">
+            <input type="text" id="url-input" value="https://example.com" placeholder="Enter web address (must start with https://)...">
+            <button onclick="navigateToUrl()">Go</button>
+        </div>
+    </header>
 
-  <!-- Live Sticky Address Header Row -->
-  <div class="nav-bar">
-    <button class="nav-btn" onclick="goHome()">Home</button>
-    <form id="nav-form" style="display: flex; flex: 1; gap: 10px;" onsubmit="handleNavSubmit(event)">
-      <div class="url-bar-container">
-        <input type="text" id="url-input" placeholder="Type search parameter or URL address here..." autocomplete="off">
-      </div>
-      <button type="submit" class="nav-btn">Go</button>
-    </form>
-  </div>
-  
-  <!-- Active Viewport Display Area Layout -->
-  <div class="main-viewport">
-    
-    <!-- Home Selection Layer Screen -->
-    <div class="home-screen" id="homeScreen">
-      <h1>Breeze</h1>
-      <div class="box">
-        <form id="gateway-form" style="display: flex; width: 100%;" onsubmit="handleHomeSubmit(event)">
-          <input type="text" id="url-field" placeholder="Search unblocked web cleanly..." required autocomplete="off">
-          <button type="submit" class="launch-btn">Launch</button>
-        </form>
-      </div>
-
-      <div class="apps-container">
-        <a class="app-card" onclick="launchShortcut('youtube')">YouTube</a>
-        <a class="app-card" onclick="launchShortcut('discord')">Discord</a>
-        <a class="app-card" onclick="launchShortcut('tiktok')">TikTok</a>
-        <a class="app-card" onclick="launchShortcut('google')">Google</a>
-        <a class="app-card" onclick="launchShortcut('github')">GitHub</a>
-      </div>
-      <p>Breeze glass tab framework online.</p>
+    <!-- Quick Launch Bookmarks Menu -->
+    <div class="bookmarks">
+        <button class="bookmark-btn" onclick="quickLoad('https://example.com')">Example Site</button>
+        <button class="bookmark-btn" onclick="quickLoad('https://wikipedia.org')">Wikipedia</button>
+        <button class="bookmark-btn" onclick="quickLoad('https://archive.org')">Internet Archive</button>
     </div>
 
-    <!-- Website Display Portal Window Frame Area -->
-    <iframe class="browser-frame" id="browserFrame"></iframe>
+    <!-- Active Browser Display Canvas -->
+    <div class="browser-viewport">
+        <iframe id="browser-frame" src="https://example.com"></iframe>
+        <div class="frame-notice">Note: If a site remains blank, it restricts iframe embedding.</div>
+    </div>
 
-  </div>
+    <script>
+        // Function to load URLs from the custom navigation search bar
+        function navigateToUrl() {
+            const input = document.getElementById('url-input');
+            let url = input.value.trim();
 
-  <script>
-    let tabCount = 1;
-    let tabsData = {
-      "1": { url: "", isHome: true, label: "New Tab" }
-    };
-    let activeTabId = "1";
+            // Enforce basic URL protocol configuration standard
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
 
-    function createNewTab() {
-      tabCount++;
-      const id = tabCount.toString();
-      tabsData[id] = { url: "", isHome: true, label: "New Tab" };
+            document.getElementById('browser-frame').src = url;
+            input.value = url;
+        }
 
-      const tabBar = document.getElementById('tabBar');
-      const addBtn = tabBar.querySelector('.new-tab-btn');
-      
-      const newTab = document.createElement('div');
-      newTab.className = 'tab';
-      newTab.setAttribute('data-tab-id', id);
-      newTab.setAttribute('onclick', 'switchTab(this)');
-      newTab.innerHTML = `<span class="tab-title">New Tab</span><span class="close-tab" onclick="closeTab(event, this)">×</span>`;
-      
-      tabBar.insertBefore(newTab, addBtn);
-      switchTab(newTab);
-    }
+        // Action routing helper for instant shortcut triggers
+        function quickLoad(targetUrl) {
+            document.getElementById('url-input').value = targetUrl;
+            document.getElementById('browser-frame').src = targetUrl;
+        }
 
-    function switchTab(tabElement) {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      tabElement.classList.add('active');
-      
-      activeTabId = tabElement.getAttribute('data-tab-id');
-      const data = tabsData[activeTabId];
+        // Listen for enter-key submissions inside the input field
+        document.getElementById('url-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                navigateToUrl();
+            }
+        });
+    </script>
+</body>
+</html>
 
-      let displayUrl = data.url;
-      if (displayUrl.includes('?q=')) {
-        displayUrl = decodeURIComponent(displayUrl.split('?q=')[1] || displayUrl);
-      }
-
-      document.getElementById('url-input').value = displayUrl;
-      document.getElementById('url-field').value = displayUrl;
-
-      if (data.isHome) {
-        document.getElementById('homeScreen').style.display = "flex";
-        document.getElementById('browserFrame').style.display = "none";
-      } else {
-        document.getElementById('homeScreen').style.display = "none";
-        document.getElementById('browserFrame').style.display = "block";
-        document.getElementById('browserFrame').src = data.url;
-      }
-    }
-
-    function closeTab(event, closeButton) {
-      event.stopPropagation();
-      const tabElement = closeButton.parentElement;
-      const id = tabElement.getAttribute('data-tab-id');
-      const allTabs = document.querySelectorAll('.tab');
-      
-
-      

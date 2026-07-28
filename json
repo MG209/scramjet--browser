@@ -1,0 +1,9 @@
+{
+  "name": "breeze-proxy",
+  "version": "1.0.0",
+  "description": "Proxy service for Breeze OS browser",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
